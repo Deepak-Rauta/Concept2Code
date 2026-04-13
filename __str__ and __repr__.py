@@ -126,15 +126,15 @@ Expected str(table): "Table 4 (Seats 8)"
 Expected repr(table): "Table(number=4, capacity=8)"""
 
 class Table:
-    def __init__(self, fields_number: int, capacity: int):
-        self.fields_number = fields_number
+    def __init__(self, number: int, capacity: int):
+        self.number = number
         self.capacity = capacity
 
     def __str__(self):
-        return f"Table {self.fields_number} (Seats {self.capacity})"
+        return f"Table {self.number} (Seats {self.capacity})"
     
     def __repr__(self):
-        return f"Table(number={self.fields_number!r}, capacity={self.capacity!r})"
+        return f"Table(number={self.number}, capacity={self.capacity})"
     
 # --- Testing the output ---
 table = Table(4, 8)
