@@ -71,7 +71,7 @@ restricted_word = ["banned", "restricted", "prohibited"]
 audit_policy_document("safety_policy_guidelines.txt", restricted_word)
 
 
-# Practice Task
+# Practice Task:- 01
 class MockDBConnection:
     def __enter__(seelf):
         print("Connecting to database...")
@@ -94,3 +94,48 @@ with MockDBConnection() as conn:
     print(f"Performing queries with: {conn}")
 
 print("--- Application Finished ---")
+
+
+print()
+
+
+"""Problem 2: The Execution Timer
+Create a class called Timer.
+
+__enter__ should record the start time using time.time().
+
+__exit__ should record the end time, calculate the difference, and print "Execution took X.XXXX seconds."""
+
+import time
+
+class Timer:
+    def __enter__(self):
+        # Record the exact moment the block starts
+        self.start_time = time.time()
+
+        # We can return 'self' just in case we wnated to access
+        # # the timer object inside the 'with' block, but it's optional here
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        # Record the exact moment the block finished!
+        self.end_time = time.time()
+
+        # Calculate the elapsed time
+        elapsed_time = self.end_time - self.start_time
+
+        # Print the result, formatting to 4 decimal places
+        print(f"Excecution took {elapsed_time:.4f} seconds.")
+
+        # Return False so we don't accidentally hide any bugs/exceptions
+        # that might occur while the code is being timed.
+        return False
+# --- Testing the Context Manager ---
+print("--- Starting Task ---")
+
+# We don't necessarily need 'as t' here since we just want the side-effect of timing
+
+with Timer():
+    # Simulating a slow operation like a network request or heavy calculation
+    time.sleep(1)
+
+print("--- Task Finished ---")
