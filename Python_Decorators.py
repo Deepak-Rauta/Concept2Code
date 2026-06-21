@@ -139,4 +139,164 @@ print("-----------------------------------------------------------")
 
 
 
+# Example 1: Function inside Function
+# Before decorators, understand that functions are objects in Python.
+def greet():
+    print("Hello!")
+
+print(greet)
+
+# <function greet at 0x...>
+# Python treats functions like variables.
+
+## Example 2: Pass a Function as an Argument
+def greet():
+    print("Hello!")
+
+def execute_function(func):
+    func()
+
+execute_function(greet)
+
+# DRY run for better understanding
+# execute_function(greet)
+# func = greet
+# func() it becomes greet()
+
+# Example 3: Return a Function
+def outer():
+    
+    def inner():
+        print("Inside Inner")
+
+    return inner
+
+my_function = outer()
+my_function()
+
+# DRY run for better understanding
+# my_function = outer() return inner
+# so my_function = inner
+# my_function() becomes inner()
+# So, output is Inside Inner
+
+# Example 4: First Real Decorator
+# Suppose we want to print a message before a function runs.
+def decorator(func):
+
+    def wrapper():
+        print("Before function excecution!")
+
+        func()  # here it is actually referring to greet. memory view func ------> greet function
+
+    return wrapper
+
+# Original function
+def greet():
+    print("Hello Deepak!")
+
+# Apply decorator manually!
+greet = decorator(greet)
+greet()
+
+# Dry Run
+# Step:- 1
+# greet = decorator(greet)
+# Inside decorator func = greet
+# Create wrapper and return wrapper
+# Now, greet = wrapper
+# Now, greet() actually call wrapper()
+# Insdie wrapper print("Before function execution")
+# So, output is Before function execution
+# Then, func(), which is original function and return "Hello Deepak!"
+
+# Example 6: Decorator That Adds a Line Before and After
+def decorator(func):  
+
+    # Define the inner function
+    # It won't be created until decorator() is called.
+    # When decorator() is called, it will return the wrapper function.
+    def wrapper():
+        print("---- Start ----")
+
+        func()
+
+        print("---- End ----")
+
+    return wrapper
+
+@decorator
+def greet():
+    print("Welcome!")
+
+greet()
+
+# When python see @decorator python actually converts this to 
+
+# def greet():
+#     print("Welcome!")
+
+# greet = decorator(greet)
+
+# Practical task
+def my_decorator(func):
+
+    def wrapper():
+
+        print("Function Started")
+
+        func()
+
+    return wrapper
+
+@my_decorator
+def greet():
+    print("Welcome")
+
+greet()
+
+
+# 1. Decorators with Arguments (*args and **kwargs)
+# So far my decorator only works for functions with no parameters.
+
+# @decorator
+# def greet():
+#     print(f"Hello {name}")  
+# In the above code my current decorator will fail because wrapper() doesn't accept argument
+
+# The solution:-
+
+def decorator(func):
+    def wrapper(*args, **kwargs):
+        print("Before")
+        func(*args, **kwargs)
+        print("After")
+    return wrapper
+
+# This is the most common decorator pattern in real projects.
+
+# 2. Closures ⭐ (Very Important)
+
+# Decorators are built on closures.
+# Example:-
+def outer():
+    x = 10
+
+    def inner():
+        print(x)
+
+    return inner
+
+func = outer()
+func()
+
+# Question:
+
+# How can inner() still access x after outer() has finished executing?
+
+# Answer:
+# Because Python remembers the surrounding variables. This is called a closure.
+
+
+
 
