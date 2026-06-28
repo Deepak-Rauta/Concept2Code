@@ -297,6 +297,52 @@ func()
 # Answer:
 # Because Python remembers the surrounding variables. This is called a closure.
 
+# 4. PRACTICAL CODE: Performance Timer
+import time
+
+# 01. Define the decorator
+def perfomance_timer(func): # Here func is actually 
+    def wrapper(*args, **kwargs):
+        start_time = time.perf_counter()  # Start time
+        result = func(*args, **kwargs)    # Excecute function  it becomes result = calculate()
+        end_time = time.perf_counter()    # End timer
+
+        # Calculate time in milisecond
+        excecution_time = (end_time - start_time) * 1000
+        # This line prints the function name and how long it took to execute.
+        print(f"[{func.__name__}] excecuted in {excecution_time:.4f}ms")
+
+        return result       # return the 
+    return wrapper
+
+
+# 2. Apply it to binary search
+@perfomance_timer
+def binary_serach(arr, target):
+    left, right = 0, len(arr) - 1
+    while left <= right:
+        mid = (left + right) // 2
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] < target:
+            left = mid + 1
+        else:
+            right = mid - 1
+
+    return -1
+
+# 3. Excecution
+my_list = list(range(1, 1000000))
+target_num = 750000
+
+print(f"Searching for {target_num}")
+index = binary_search(my_list, target_num)
+print(f"Output: Found at Index {index}")
+
+#         print(f"[{func.__name__}] excecuted in {excecution_time:.4f}ms") Let's understand this
+# func.__name__ we alreday know i.e func is the original function.
+# so my func = binary_search
+
 
 
 
